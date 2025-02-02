@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  // Update base URL to use workwad.com domain
+  baseURL: 'https://api.workwad.com',
   withCredentials: true
 });
 

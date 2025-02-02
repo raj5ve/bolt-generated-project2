@@ -5,12 +5,13 @@ import {
   Text, 
   Container, 
   Button, 
-  Group, 
+  Group,
   ActionIcon,
   Divider,
   Code,
   Tooltip,
-  Badge
+  Badge,
+  Switch
 } from '@mantine/core';
 import { IconPlus, IconCopy, IconPencil, IconTrash, IconEye } from '@tabler/icons-react';
 import FormModal from './FormModal';
@@ -18,7 +19,7 @@ import FormPreviewModal from './FormPreviewModal';
 
 const EMBED_CODE_TEMPLATE = (formId) => `
 <iframe 
-  src="https://freelancebase.com/forms/${formId}" 
+  src="https://workwad.com/forms/${formId}" 
   width="100%" 
   height="500px" 
   frameborder="0"
@@ -33,7 +34,7 @@ export default function FormSettings() {
       fields: [
         { 
           id: '1',
-          type: 'short_text',
+          type: 'text',
           label: 'Name',
           placeholder: 'Enter your name',
           required: true 
@@ -47,16 +48,16 @@ export default function FormSettings() {
         },
         {
           id: '3',
-          type: 'phone',
-          label: 'Phone',
-          placeholder: 'Enter your phone number',
-          required: false
+          type: 'text',
+          label: 'Subject',
+          placeholder: 'What is this about?',
+          required: true
         },
         {
           id: '4',
-          type: 'long_text',
+          type: 'textarea',
           label: 'Message',
-          placeholder: 'Enter your message',
+          placeholder: 'Your message here...',
           required: true
         }
       ],
@@ -69,6 +70,14 @@ export default function FormSettings() {
 
   const handleCopyCode = (formId) => {
     navigator.clipboard.writeText(EMBED_CODE_TEMPLATE(formId));
+  };
+
+  const handleToggleActive = (formId) => {
+    setForms(forms.map(form => 
+      form.id === formId 
+        ? { ...form, active: !form.active }
+        : form
+    ));
   };
 
   return (
@@ -109,6 +118,11 @@ export default function FormSettings() {
                   </Text>
                 </div>
                 <Group spacing="xs">
+                  <Switch
+                    checked={form.active}
+                    onChange={() => handleToggleActive(form.id)}
+                    label="Active"
+                  />
                   <Tooltip label="Preview Form">
                     <ActionIcon 
                       variant="light"

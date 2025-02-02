@@ -13,6 +13,7 @@ import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 import PublicProfile from './pages/PublicProfile';
 import ServicePage from './pages/ServicePage';
+import NotFound from './pages/NotFound';
 import Layout from './components/Layout';
 import useAuthStore from './store/useAuthStore';
 
@@ -95,7 +96,7 @@ const App = () => {
         }
       />
       <Route
-        path="/settings"
+        path="/settings/*"
         element={
           <ProtectedRoute>
             <Settings />
@@ -103,13 +104,8 @@ const App = () => {
         }
       />
 
-      {/* Catch all route - redirect to dashboard if authenticated, home if not */}
-      <Route
-        path="*"
-        element={
-          <Navigate to="/dashboard" replace />
-        }
-      />
+      {/* 404 Route */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

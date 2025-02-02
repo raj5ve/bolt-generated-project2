@@ -12,7 +12,7 @@ const features = [
   {
     icon: IconBriefcase,
     title: 'Professional Talent',
-    description: 'Access a global network of skilled professionals ready to help with your projects'
+    description: 'Access WorkWad\'s global network of skilled professionals ready to help with your projects'
   },
   {
     icon: IconMessage,

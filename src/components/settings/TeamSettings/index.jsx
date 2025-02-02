@@ -15,9 +15,8 @@ import {
 import { 
   IconPlus, 
   IconDots, 
-  IconTrash,
-  IconCrown,
   IconUserOff,
+  IconCrown,
   IconAlertCircle
 } from '@tabler/icons-react';
 import InviteTeamModal from './InviteTeamModal';
@@ -28,14 +27,14 @@ export default function TeamSettings() {
     {
       id: '1',
       name: 'John Doe',
-      email: 'john@example.com',
+      email: 'john@workwad.com',
       role: 'admin',
       status: 'active'
     },
     {
       id: '2',
       name: 'Jane Smith',
-      email: 'jane@example.com',
+      email: 'jane@workwad.com',
       role: 'member',
       status: 'active'
     }

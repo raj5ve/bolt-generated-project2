@@ -9,103 +9,57 @@ import {
   Text,
   Modal,
   Select,
-  Tooltip,
   Paper,
   Divider
 } from '@mantine/core';
-import { IconPlus, IconTrash, IconGripVertical } from '@tabler/icons-react';
+import { IconPlus, IconTrash } from '@tabler/icons-react';
 
 const FIELD_TYPES = [
-  { value: 'short_text', label: 'Short Text' },
-  { value: 'long_text', label: 'Long Text' },
-  { value: 'email', label: 'Email Address' },
+  { value: 'text', label: 'Text Input' },
+  { value: 'textarea', label: 'Text Area' },
+  { value: 'email', label: 'Email' },
   { value: 'phone', label: 'Phone Number' },
-  { value: 'url', label: 'URL' },
+  { value: 'select', label: 'Dropdown' },
   { value: 'number', label: 'Number' },
-  { value: 'date', label: 'Date' },
-  { value: 'single_choice', label: 'Single Choice' },
-  { value: 'multiple_choice', label: 'Multiple Choice' }
+  { value: 'date', label: 'Date' }
 ];
 
-const getFieldTypeLabel = (type) => {
-  return FIELD_TYPES.find(t => t.value === type)?.label || type;
-};
-
-const getFieldPlaceholder = (type) => {
-  switch (type) {
-    case 'email':
-      return 'Enter your email address';
-    case 'phone':
-      return 'Enter your phone number';
-    case 'url':
-      return 'Enter website URL';
-    case 'long_text':
-      return 'Enter your message';
-    case 'number':
-      return 'Enter a number';
-    case 'date':
-      return 'Select a date';
-    default:
-      return 'Enter your answer';
-  }
-};
-
 export default function FormModal({ opened, onClose, form, onSave }) {
+  const [formName, setFormName] = useState(form?.name || '');
   const [fields, setFields] = useState(form?.fields || [
     { 
       id: '1',
-      type: 'short_text',
+      type: 'text',
       label: 'Name',
       placeholder: 'Enter your name',
       required: true 
-    },
-    { 
-      id: '2',
-      type: 'email',
-      label: 'Email',
-      placeholder: 'Enter your email address',
-      required: true 
     }
   ]);
-  const [formName, setFormName] = useState(form?.name || '');
 
   const addField = () => {
     setFields([
-      ...fields, 
+      ...fields,
       {
         id: Date.now().toString(),
-        type: 'short_text',
+        type: 'text',
         label: '',
         placeholder: '',
         required: false,
-        options: [] // for single/multiple choice fields
+        options: []
       }
     ]);
   };
 
   const updateField = (id, updates) => {
-    setFields(fields.map(field => {
-      if (field.id === id) {
-        const updatedField = { ...field, ...updates };
-        // Update placeholder when type changes
-        if (updates.type) {
-          updatedField.placeholder = getFieldPlaceholder(updates.type);
-        }
-        return updatedField;
-      }
-      return field;
-    }));
+    setFields(fields.map(field => 
+      field.id === id ? { ...field, ...updates } : field
+    ));
   };
 
   const removeField = (id) => {
-    setFields(fields.filter(field => field.id !== id));
-  };
-
-  const moveField = (fromIndex, toIndex) => {
-    const newFields = [...fields];
-    const [removed] = newFields.splice(fromIndex, 1);
-    newFields.splice(toIndex, 0, removed);
-    setFields(newFields);
+    if (fields.length > 1) {
+      setFields(fields.filter(field => field.id !== id));
+    }
   };
 
   return (
@@ -120,8 +74,8 @@ export default function FormModal({ opened, onClose, form, onSave }) {
           label="Form Name"
           value={formName}
           onChange={(e) => setFormName(e.target.value)}
-          required
           placeholder="e.g., Contact Form, Project Brief"
+          required
         />
 
         <div>
@@ -131,48 +85,38 @@ export default function FormModal({ opened, onClose, form, onSave }) {
               <Paper key={field.id} withBorder p="md">
                 <Stack spacing="md">
                   <Group position="apart">
-                    <Group spacing="xs">
-                      <Tooltip label="Drag to reorder">
-                        <ActionIcon size="sm" color="gray">
-                          <IconGripVertical size={14} />
-                        </ActionIcon>
-                      </Tooltip>
-                      <Text size="sm" weight={500}>Field {index + 1}</Text>
-                    </Group>
+                    <Text size="sm" weight={500}>Field {index + 1}</Text>
                     <ActionIcon 
                       color="red" 
                       onClick={() => removeField(field.id)}
-                      disabled={fields.length <= 1}
+                      disabled={fields.length === 1}
                     >
                       <IconTrash size={16} />
                     </ActionIcon>
                   </Group>
 
-                  <Divider />
-
-                  <Group grow align="flex-start">
-                    <Select
-                      label="Field Type"
-                      value={field.type}
-                      onChange={(value) => updateField(field.id, { type: value })}
-                      data={FIELD_TYPES}
-                    />
-                    <TextInput
-                      label="Field Label"
-                      value={field.label}
-                      onChange={(e) => updateField(field.id, { label: e.target.value })}
-                      placeholder={`e.g., ${getFieldTypeLabel(field.type)}`}
-                    />
-                  </Group>
-
-                  <TextInput
-                    label="Placeholder Text"
-                    value={field.placeholder}
-                    onChange={(e) => updateField(field.id, { placeholder: e.target.value })}
-                    placeholder={getFieldPlaceholder(field.type)}
+                  <Select
+                    label="Field Type"
+                    value={field.type}
+                    onChange={(value) => updateField(field.id, { type: value })}
+                    data={FIELD_TYPES}
                   />
 
-                  {(field.type === 'single_choice' || field.type === 'multiple_choice') && (
+                  <TextInput
+                    label="Field Label"
+                    value={field.label}
+                    onChange={(e) => updateField(field.id, { label: e.target.value })}
+                    placeholder="e.g., Full Name, Email Address"
+                  />
+
+                  <TextInput
+                    label="Placeholder"
+                    value={field.placeholder}
+                    onChange={(e) => updateField(field.id, { placeholder: e.target.value })}
+                    placeholder="e.g., Enter your full name"
+                  />
+
+                  {field.type === 'select' && (
                     <TextInput
                       label="Options"
                       placeholder="Comma-separated options"

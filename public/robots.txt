@@ -1,0 +1,13 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Prevent crawling of certain routes
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /messages
+Disallow: /analytics
+Disallow: /orders
+
+# Sitemap location
+Sitemap: https://workwad.com/sitemap.xml

@@ -1,0 +1,16 @@
+# Redirect all routes to index.html for client-side routing
+/*    /index.html   200
+
+# Redirect www to non-www
+https://www.workwad.com/* https://workwad.com/:splat 301!
+
+# Redirect HTTP to HTTPS
+http://workwad.com/* https://workwad.com/:splat 301!
+http://www.workwad.com/* https://workwad.com/:splat 301!
+
+# Optional: Redirect old paths to new ones if needed
+# /old-path    /new-path    301
+# /blog/*      /articles/:splat    301
+
+# Handle API routes differently if needed
+# /api/*    https://api.workwad.com/:splat    200

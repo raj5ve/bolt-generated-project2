@@ -1,9 +1,11 @@
-import { Modal, Button, Stack, TextInput, Textarea, Select, Paper } from '@mantine/core';
+import { Modal, Button, Stack, TextInput, Textarea, Select } from '@mantine/core';
 
 export default function FormPreviewModal({ opened, onClose, form }) {
+  if (!form) return null;
+
   const renderField = (field) => {
     switch (field.type) {
-      case 'long_text':
+      case 'textarea':
         return (
           <Textarea
             key={field.id}
@@ -36,17 +38,6 @@ export default function FormPreviewModal({ opened, onClose, form }) {
           />
         );
       
-      case 'url':
-        return (
-          <TextInput
-            key={field.id}
-            label={field.label}
-            placeholder={field.placeholder}
-            required={field.required}
-            type="url"
-          />
-        );
-      
       case 'number':
         return (
           <TextInput
@@ -69,7 +60,7 @@ export default function FormPreviewModal({ opened, onClose, form }) {
           />
         );
       
-      case 'single_choice':
+      case 'select':
         return (
           <Select
             key={field.id}
@@ -92,8 +83,6 @@ export default function FormPreviewModal({ opened, onClose, form }) {
     }
   };
 
-  if (!form) return null;
-
   return (
     <Modal
       opened={opened}
@@ -101,16 +90,14 @@ export default function FormPreviewModal({ opened, onClose, form }) {
       title={form.name}
       size="lg"
     >
-      <Paper p="md">
-        <form onSubmit={(e) => e.preventDefault()}>
-          <Stack spacing="md">
-            {form.fields.map(field => renderField(field))}
-            <Button type="submit" mt="md">
-              Submit
-            </Button>
-          </Stack>
-        </form>
-      </Paper>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <Stack spacing="md">
+          {form.fields.map(field => renderField(field))}
+          <Button type="submit" mt="md">
+            Submit
+          </Button>
+        </Stack>
+      </form>
     </Modal>
   );
 }

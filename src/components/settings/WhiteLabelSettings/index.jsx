@@ -28,16 +28,16 @@ export default function WhiteLabelSettings() {
             <TextInput
               label="Custom Domain"
               placeholder="app.yourdomain.com"
-              description="Enter the domain you want to use for your freelance dashboard"
+              description="Enter the domain you want to use for your professional dashboard"
             />
 
             <Alert icon={<IconAlertCircle size={16} />} title="DNS Configuration" color="blue">
               Add the following CNAME record to your domain's DNS settings:
               <Group spacing="xs" mt="xs">
                 <Code style={{ flex: 1 }}>
-                  CNAME app.yourdomain.com freelancebase.com
+                  CNAME app.yourdomain.com workwad.com
                 </Code>
-                <CopyButton value="CNAME app.yourdomain.com freelancebase.com">
+                <CopyButton value="CNAME app.yourdomain.com workwad.com">
                   {({ copied, copy }) => (
                     <Tooltip label={copied ? 'Copied' : 'Copy'}>
                       <ActionIcon color={copied ? 'teal' : 'gray'} onClick={copy}>

@@ -10,13 +10,13 @@ export default function PublicFooter() {
               WorkWad
             </Text>
             <Group spacing="lg">
-              <Anchor size="sm" color="dimmed">
+              <Anchor href="https://workwad.com/terms" size="sm" color="dimmed">
                 Terms of Service
               </Anchor>
-              <Anchor size="sm" color="dimmed">
+              <Anchor href="https://workwad.com/privacy" size="sm" color="dimmed">
                 Privacy Policy
               </Anchor>
-              <Anchor size="sm" color="dimmed">
+              <Anchor href="https://workwad.com/contact" size="sm" color="dimmed">
                 Contact Us
               </Anchor>
             </Group>
